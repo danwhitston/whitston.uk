@@ -26,6 +26,19 @@ check_present 'sitemap-index.xml'         dist/robots.txt      'robots.txt point
 
 [ -f dist/og.png ] && note "ok" 'og.png present' || { note "FAIL" 'og.png present'; fail=1; }
 
+# --- Whitespace swallowed before an inline link ---
+# Astro's compressor collapses a newline before an inline <a> to nothing, not to
+# a space, so `reach me at\n<a ...>` renders as "reach me at<a". Invisible in the
+# source; only shows in the built output. Keep the text and the opening tag on
+# the same line.
+jammed=$(grep -rhoE '[a-z]{2,}<a href' dist --include='*.html' 2>/dev/null | sort -u)
+if [ -n "$jammed" ]; then
+  note "FAIL" "missing space before an inline link: $(echo "$jammed" | tr '\n' ' ')"
+  fail=1
+else
+  note "ok" 'no text jammed against an inline link'
+fi
+
 # --- About page length ---
 # Count the prose in <main> only. Counting the whole document swept in the
 # header and footer chrome (~100 words), so the number never matched the word
