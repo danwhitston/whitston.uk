@@ -12,6 +12,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "check:urls": "bash scripts/check-urls.sh",
+    "check:content": "bash scripts/check-content.sh",
     "astro": "astro"
   },
   "dependencies": {

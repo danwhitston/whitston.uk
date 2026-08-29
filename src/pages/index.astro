@@ -1,64 +1,73 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
+import Currently from '../components/Currently.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
-// Deliberately does not list posts. The archive is nine pieces from 2010-2017 on
-// welfare policy, community organising and Ruby tooling — kept online and
-// crawlable, but not representative of current work. It is reachable from the
-// footer only. See CLAUDE.md.
+// Deliberately no post list. The archive is reachable from the footer, and the
+// line framing it lives on /blog/ instead.
+
+// JSON-LD Person: how Google connects a search for the name to this
+// site. Keep `sameAs` in step with the links in Header.astro.
+const personSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'Person',
+	name: 'Daniel Whitston',
+	jobTitle: 'Founding CTO',
+	worksFor: { '@type': 'Organization', name: 'AutogenAI', url: 'https://autogenai.com' },
+	url: 'https://whitston.uk',
+	address: { '@type': 'PostalAddress', addressLocality: 'London', addressCountry: 'GB' },
+	sameAs: ['https://www.linkedin.com/in/danielwhitston', 'https://github.com/danwhitston'],
+};
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<script type="application/ld+json" set:html={JSON.stringify(personSchema)} is:inline />
 		<style>
 			main {
 				width: 720px;
 			}
-			.intro p {
-				font-size: 1.125rem;
-				line-height: 1.6;
+			h1 {
+				margin-bottom: 0.2em;
 			}
-			.elsewhere {
-				margin-top: 3rem;
+			.strapline {
+				font-size: 1.2rem;
+				line-height: 1.5;
+				color: rgb(var(--gray-dark));
+				margin-bottom: 2.5rem;
+			}
+			.contact {
+				margin-top: 2.5rem;
 				padding-top: 1.5rem;
 				border-top: 1px solid rgb(var(--gray-light));
 			}
-			.elsewhere ul {
-				list-style: none;
-				margin: 0;
-				padding: 0;
-				display: flex;
-				flex-wrap: wrap;
-				gap: 1.5rem;
+			@media (max-width: 720px) {
+				.strapline {
+					font-size: 1.05rem;
+					margin-bottom: 1.75rem;
+				}
 			}
 		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
-			<div class="intro">
-				<h1>Daniel Whitston</h1>
-				<p>
-					CTO and engineering leader based in London. I work on AI and SaaS products, and on the
-					teams and technical decisions that get them shipped.
-				</p>
-				<p>
-					<!-- TODO: replace with your own copy — what you are working on now, what you
-					     want people who land here to take away, and how to get in touch. -->
-				</p>
-			</div>
+			<h1>Daniel Whitston</h1>
+			<p class="strapline">
+				Employee #1 and founding CTO at AutogenAI, working where AI meets defence, government
+				services and public service delivery. London.
+			</p>
 
-			<div class="elsewhere">
-				<ul>
-					<li><a href="https://github.com/danwhitston">GitHub</a></li>
-					<li><a href="https://www.linkedin.com/in/danielwhitston">LinkedIn</a></li>
-					<li><a href="mailto:dan@whitston.uk">Email</a></li>
-				</ul>
-			</div>
+			<Currently />
+
+			<p class="contact">
+				More on the <a href="/about/">about page</a>, or reach me at
+				<a href="mailto:dan@whitston.uk">dan@whitston.uk</a>.
+			</p>
 		</main>
 		<Footer />
 	</body>

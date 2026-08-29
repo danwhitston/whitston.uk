@@ -1,0 +1,81 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+
+// Target is roughly 400 words — something a person will actually finish.
+// No skills list, no technology logos, no timeline widget.
+const DESCRIPTION =
+	'Founding CTO and employee #1 at AutogenAI, and twenty-five years delivering public services under government contract before that.';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`About · ${SITE_TITLE}`} description={DESCRIPTION} />
+		<style>
+			main {
+				width: 720px;
+			}
+			p {
+				line-height: 1.65;
+				margin-bottom: 1.1em;
+			}
+			.lead {
+				font-size: 1.2rem;
+				color: rgb(var(--gray-dark));
+				margin-bottom: 2rem;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>About</h1>
+
+			<p class="lead">
+				I build AI products for organisations that have to answer for how they work.
+			</p>
+
+			<p>
+				I'm employee #1 and founding CTO at AutogenAI. Since July 2022 I've taken it from a blank
+				repo to a category-defining product across three funding rounds — in production before
+				ChatGPT existed — and built the organisation that runs it: a distributed team of 40
+				spanning engineering, ML, product, platform, IT and GRC, across the UK, US and Australia.
+			</p>
+
+			<p>
+				A good deal of that work was regulatory. We reached FedRAMP High authorisation in January
+				2026, alongside SOC 2 Type II, ISO 27001, Cyber Essentials Plus and IRAP. The harder part
+				was architectural: keeping an AI system matched to a capability landscape that moved every
+				six months, across four generations of models, with no rewrite event in four years.
+			</p>
+
+			<p>
+				Before that I was CTO at Policy in Practice, a govtech business serving local authorities
+				and central government — the same buyer, one technology generation earlier. And before
+				software, twenty-five years delivering public services under government contract: designing
+				and running government-funded employment programmes at Kennedy Scott, writing and winning
+				the bids that paid for them, and founding Indus Delta, which grew into the sector's
+				most-read community before I sold it to Inclusion in 2010.
+			</p>
+
+			<p>
+				The convergence is the point. I spent years on the bidding side of government contracts,
+				and I've spent the last four running frontier models in production for customers who have
+				to account for the results. Those are not the same skill, and not many people have had to
+				learn both.
+			</p>
+
+			<p>
+				Along the way: a BSc in Mathematics from Warwick, an MSc in Computer Science from Birkbeck
+				in 2022, a PGDip in Management Studies, and Makers Academy. Before any of it, two years
+				teaching maths and physics in Central Africa with VSO — still the hardest job I have had.
+			</p>
+
+			<p>You can reach me at <a href="mailto:dan@whitston.uk">dan@whitston.uk</a>.</p>
+		</main>
+		<Footer />
+	</body>
+</html>

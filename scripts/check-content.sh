@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# Structural checks on the built output: metadata that must be present.
+# Usage: npm run build && npm run check:content
+set -uo pipefail
+
+fail=0
+note() { printf '  %-6s %s\n' "$1" "$2"; }
+
+# --- Required elements ---
+check_present() {
+  if grep -rqF "$1" "$2" 2>/dev/null; then
+    note "ok" "$3"
+  else
+    note "FAIL" "$3"
+    fail=1
+  fi
+}
+
+check_present '"@type":"Person"'          dist/index.html      'JSON-LD Person on front page'
+check_present 'og:image'                  dist/index.html      'og:image on front page'
+check_present 'rel="canonical"'           dist/index.html      'canonical on front page'
+check_present 'rel="canonical"'           dist/about/index.html 'canonical on /about'
+check_present 'rel="canonical"'           dist/blog/driving-sales-with-crm/index.html 'canonical on a sample post'
+check_present 'mailto:dan@whitston.uk'    dist/index.html      'contact link resolves to dan@whitston.uk'
+check_present 'sitemap-index.xml'         dist/robots.txt      'robots.txt points at the sitemap'
+
+[ -f dist/og.png ] && note "ok" 'og.png present' || { note "FAIL" 'og.png present'; fail=1; }
+
+# --- About page length ---
+words=$(sed -e 's/<[^>]*>/ /g' dist/about/index.html | wc -w)
+if [ "$words" -le 500 ]; then
+  note "ok" "/about is ${words} words (target ~400)"
+else
+  note "FAIL" "/about is ${words} words, over the ~400 target"
+  fail=1
+fi
+
+if [ "$fail" -ne 0 ]; then
+  echo "FAILED: structural content checks" >&2
+  exit 1
+fi
+echo "Structural content checks pass."

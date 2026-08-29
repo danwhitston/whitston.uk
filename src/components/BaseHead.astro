@@ -3,7 +3,7 @@
 // all pages through the use of the <BaseHead /> component.
 import '../styles/global.css';
 import type { ImageMetadata } from 'astro';
-import { SITE_TITLE } from '../consts';
+import { OG_IMAGE, SITE_TITLE } from '../consts';
 import { Font } from 'astro:assets';
 
 interface Props {
@@ -15,6 +15,10 @@ interface Props {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const { title, description, image } = Astro.props;
+
+// Every page gets an OG card. A page-supplied image wins; otherwise the
+// site-level card at public/og.png. One image for the site is enough.
+const ogImage = new URL(image?.src ?? OG_IMAGE, Astro.site);
 ---
 
 <!-- Global Metadata -->
@@ -45,7 +49,7 @@ const { title, description, image } = Astro.props;
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-{image && <meta property="og:image" content={new URL(image.src, Astro.url)} />}
+<meta property="og:image" content={ogImage} />
 
 <!-- Twitter -->
-<meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:card" content="summary_large_image" />

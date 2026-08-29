@@ -12,7 +12,8 @@ import { SITE_TITLE } from '../../consts';
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
-const DESCRIPTION = 'Older writing on software, community organising and welfare policy, 2010-2017.';
+const DESCRIPTION =
+	'Writing from 2010-2017 on welfare-to-work commissioning, community organising and the occasional bit of Ruby.';
 ---
 
 <!doctype html>
@@ -58,8 +59,10 @@ const DESCRIPTION = 'Older writing on software, community organising and welfare
 		<main>
 			<h1>Archive</h1>
 			<p class="note">
-				Older posts, written between 2010 and 2017, on software, community organising and welfare
-				policy. Kept online because the links still work; not a reflection of what I do now.
+				Posts here run back to 2010 and cover rather different ground — the Work Programme and
+				welfare-to-work commissioning, community and event organising, and the occasional bit of
+				Ruby. The public-service thread is the through line; it just took a while to meet the
+				technology.
 			</p>
 			<ul>
 				{
