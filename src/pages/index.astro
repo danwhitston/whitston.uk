@@ -1,0 +1,65 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+// Deliberately does not list posts. The archive is nine pieces from 2010-2017 on
+// welfare policy, community organising and Ruby tooling — kept online and
+// crawlable, but not representative of current work. It is reachable from the
+// footer only. See CLAUDE.md.
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			main {
+				width: 720px;
+			}
+			.intro p {
+				font-size: 1.125rem;
+				line-height: 1.6;
+			}
+			.elsewhere {
+				margin-top: 3rem;
+				padding-top: 1.5rem;
+				border-top: 1px solid rgb(var(--gray-light));
+			}
+			.elsewhere ul {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+				display: flex;
+				flex-wrap: wrap;
+				gap: 1.5rem;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="intro">
+				<h1>Daniel Whitston</h1>
+				<p>
+					CTO and engineering leader based in London. I work on AI and SaaS products, and on the
+					teams and technical decisions that get them shipped.
+				</p>
+				<p>
+					<!-- TODO: replace with your own copy — what you are working on now, what you
+					     want people who land here to take away, and how to get in touch. -->
+				</p>
+			</div>
+
+			<div class="elsewhere">
+				<ul>
+					<li><a href="https://github.com/danwhitston">GitHub</a></li>
+					<li><a href="https://www.linkedin.com/in/danielwhitston">LinkedIn</a></li>
+					<li><a href="mailto:dan@whitston.uk">Email</a></li>
+				</ul>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>

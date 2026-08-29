@@ -1,0 +1,39 @@
+---
+const today = new Date();
+
+// The archive link lives here rather than in the main nav: the old posts stay
+// reachable and crawlable without being the first thing a visitor sees.
+---
+
+<footer>
+	<nav class="footer-links">
+		<a href="/blog/">Archive</a>
+		<a href="/feed.xml">Feed</a>
+		<a href="mailto:dan@whitston.uk">Email</a>
+	</nav>
+	<p class="copyright">&copy; {today.getFullYear()} Daniel Whitston</p>
+</footer>
+<style>
+	footer {
+		padding: 2em 1em 4em 1em;
+		background: linear-gradient(var(--gray-gradient)) no-repeat;
+		color: rgb(var(--gray));
+		text-align: center;
+	}
+	.footer-links {
+		display: flex;
+		justify-content: center;
+		gap: 1.5em;
+		margin-bottom: 0.75em;
+	}
+	.footer-links a {
+		color: rgb(var(--gray));
+	}
+	.footer-links a:hover {
+		color: rgb(var(--gray-dark));
+	}
+	.copyright {
+		margin: 0;
+		font-size: 0.9em;
+	}
+</style>

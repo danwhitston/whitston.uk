@@ -1,0 +1,81 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import Header from '../../components/Header.astro';
+import { SITE_TITLE } from '../../consts';
+
+// The archive. Not linked from the home page or the main nav by design — these
+// posts are old — but kept crawlable so the migrated URLs land somewhere real
+// rather than orphaning nine redirects.
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const DESCRIPTION = 'Older writing on software, community organising and welfare policy, 2010-2017.';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Archive · ${SITE_TITLE}`} description={DESCRIPTION} />
+		<style>
+			main {
+				width: 720px;
+			}
+			.note {
+				color: rgb(var(--gray));
+				margin-bottom: 2.5rem;
+			}
+			ul {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+			li {
+				margin-bottom: 1.75rem;
+			}
+			li a {
+				text-decoration: none;
+			}
+			.title {
+				margin: 0 0 0.15rem 0;
+				line-height: 1.3;
+				color: rgb(var(--black));
+			}
+			.date {
+				margin: 0;
+				font-size: 0.9rem;
+				color: rgb(var(--gray));
+			}
+			li a:hover .title {
+				color: rgb(var(--accent));
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Archive</h1>
+			<p class="note">
+				Older posts, written between 2010 and 2017, on software, community organising and welfare
+				policy. Kept online because the links still work; not a reflection of what I do now.
+			</p>
+			<ul>
+				{
+					posts.map((post) => (
+						<li>
+							<a href={`/blog/${post.id}/`}>
+								<h2 class="title">{post.data.title}</h2>
+								<p class="date">
+									<FormattedDate date={post.data.pubDate} />
+								</p>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</main>
+		<Footer />
+	</body>
+</html>

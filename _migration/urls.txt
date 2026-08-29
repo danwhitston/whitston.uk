@@ -1,0 +1,30 @@
+# Live URLs on https://whitston.uk as at 2026-08-29.
+# Captured from the homepage link list and /feed.xml — the site has NO sitemap.xml
+# (jekyll-sitemap was never installed; /sitemap.xml returns 404).
+# Every path in the CONTENT section must resolve after migration.
+
+# --- CONTENT (the URL contract) ---
+/
+/2010/10/25/helping-people-to-get-and-keep-jobs-using-online-support.html
+/2010/10/30/online-tendering-support-for-the-work-programme.html
+/2012/06/09/what-happens-when-workfare-replaces-paid-workers.html
+/2012/07/07/community-building-on-the-web.html
+/2013/12/02/driving-sales-with-crm.html
+/2014/01/22/inclusion-and-safer-spaces.html
+/2015/01/19/paid-in-full-work-and-rewards.html
+/2017/05/14/browser-testing-for-ruby-from.html
+/2017/05/17/tech-test-adventure-arbitrary.html
+
+# --- FEED (must stay at this exact path; readers don't follow redirects reliably) ---
+/feed.xml
+
+# --- ERROR PAGE ---
+/404.html
+
+# --- DELIBERATELY DROPPED (minima theme internals, no inbound links, no SEO value) ---
+# /assets/main.css
+# /assets/minima-social-icons.svg
+
+# --- NOT FROM THIS REPO (served by Cloudflare; unaffected by the migration) ---
+# /robots.txt   -> Cloudflare's auto-generated content-signals file.
+#                  Adding public/robots.txt would OVERRIDE it. Decide deliberately.
