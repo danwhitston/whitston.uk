@@ -1,0 +1,32 @@
+{
+  "name": "whitston-uk",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "prebuild": "node scripts/gen-redirects.mjs && node scripts/gen-og-image.mjs",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "check:urls": "bash scripts/check-urls.sh",
+    "check:content": "bash scripts/check-content.sh",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^7.0.8",
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^7.2.9",
+    "sharp": "^0.35.0"
+  },
+  "allowScripts": {
+    "esbuild": true
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "satori": "^0.33.4",
+    "typescript": "^6.0.3"
+  }
+}

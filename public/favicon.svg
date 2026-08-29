@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="W">
+  <!-- Monogram for whitston.uk. Drawn as geometry, not text: an SVG favicon
+       cannot load a web font, and system font stacks render differently per
+       platform, so a <text> mark would not be the same shape everywhere.
+       Stroke weight is tuned for 16px — heavier closes up the counters. -->
+  <rect width="128" height="128" rx="26" fill="#2337ff"/>
+  <path d="M26 38 L47 94 L64 56 L81 94 L102 38"
+        fill="none" stroke="#fff" stroke-width="15"
+        stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

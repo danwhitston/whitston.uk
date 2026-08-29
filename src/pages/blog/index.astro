@@ -1,0 +1,83 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import Header from '../../components/Header.astro';
+import { profile } from '../../config/profile';
+
+// The archive. Not linked from the home page or the main nav by design — these
+// posts are old — but kept crawlable so the migrated URLs land somewhere real
+// rather than orphaning nine redirects.
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const DESCRIPTION =
+	'Writing from 2010-2017 on welfare-to-work commissioning, community organising and the occasional bit of Ruby.';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Archive · ${profile.name}`} description={DESCRIPTION} />
+		<style>
+			main {
+				width: 720px;
+			}
+			.note {
+				color: rgb(var(--gray));
+				margin-bottom: 2.5rem;
+			}
+			ul {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+			li {
+				margin-bottom: 1.75rem;
+			}
+			li a {
+				text-decoration: none;
+			}
+			.title {
+				margin: 0 0 0.15rem 0;
+				line-height: 1.3;
+				color: rgb(var(--black));
+			}
+			.date {
+				margin: 0;
+				font-size: 0.9rem;
+				color: rgb(var(--gray));
+			}
+			li a:hover .title {
+				color: rgb(var(--accent));
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Archive</h1>
+			<p class="note">
+				Posts here run from 2010 to 2017 and cover different ground from the rest of this site:
+				the Work Programme and welfare-to-work commissioning, community and event organising,
+				and the occasional bit of Ruby.
+			</p>
+			<ul>
+				{
+					posts.map((post) => (
+						<li>
+							<a href={`/blog/${post.id}/`}>
+								<h2 class="title">{post.data.title}</h2>
+								<p class="date">
+									<FormattedDate date={post.data.pubDate} />
+								</p>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</main>
+		<Footer />
+	</body>
+</html>
