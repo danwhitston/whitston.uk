@@ -27,11 +27,23 @@ check_present 'sitemap-index.xml'         dist/robots.txt      'robots.txt point
 [ -f dist/og.png ] && note "ok" 'og.png present' || { note "FAIL" 'og.png present'; fail=1; }
 
 # --- About page length ---
-words=$(sed -e 's/<[^>]*>/ /g' dist/about/index.html | wc -w)
-if [ "$words" -le 500 ]; then
-  note "ok" "/about is ${words} words (target ~400)"
+# Count the prose in <main> only. Counting the whole document swept in the
+# header and footer chrome (~100 words), so the number never matched the word
+# target the brief actually sets for the body copy. Target is ~430 words
+# (site-brief-astro-2026-08-29.md §4); 500 leaves headroom without letting the
+# page quietly double.
+# Output is minified onto two lines and Astro adds a scoped-style attribute, so
+# match `<main` with attributes and flatten newlines first.
+words=$(tr '\n' ' ' < dist/about/index.html \
+  | sed -e 's/.*<main[^>]*>//' -e 's|</main>.*||' -e 's/<[^>]*>/ /g' | wc -w)
+if [ "$words" -eq 0 ]; then
+  # Extraction failed rather than the page being empty; never pass this silently.
+  note "FAIL" "/about: could not extract <main> to count words"
+  fail=1
+elif [ "$words" -le 500 ]; then
+  note "ok" "/about body is ${words} words (target ~430)"
 else
-  note "FAIL" "/about is ${words} words, over the ~400 target"
+  note "FAIL" "/about body is ${words} words, over the ~430 target"
   fail=1
 fi
 
