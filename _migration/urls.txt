@@ -15,15 +15,14 @@
 /2017/05/14/browser-testing-for-ruby-from.html
 /2017/05/17/tech-test-adventure-arbitrary.html
 
-# --- FEED (must stay at this exact path; readers don't follow redirects reliably) ---
-/feed.xml
-
 # --- ERROR PAGE ---
 /404.html
 
 # --- DELIBERATELY DROPPED (minima theme internals, no inbound links, no SEO value) ---
 # /assets/main.css
 # /assets/minima-social-icons.svg
+# /feed.xml   -> Feed removed 2026-08-30. Last post is from 2017 and the site had
+#                been static for years; no subscribers worth preserving. Returns 404.
 
 # --- NOT FROM THIS REPO (served by Cloudflare; unaffected by the migration) ---
 # /robots.txt   -> Cloudflare's auto-generated content-signals file.

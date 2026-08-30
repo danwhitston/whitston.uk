@@ -57,12 +57,13 @@ old URL. Never remove entries — those are the contract.
 The apex `whitston.uk` is Cloudflare-proxied; `whitston.org.uk` 301s to it at the
 edge (that domain move happened in 2022).
 
-## The feed stays at /feed.xml
+## There is no feed
 
-`src/pages/feed.xml.js`, not `rss.xml`. Jekyll served the feed there and feed
-readers do not follow redirects reliably — moving it drops subscribers silently
-rather than failing loudly. The format changed from Atom to RSS 2.0; readers
-handle both.
+Jekyll served an Atom feed at `/feed.xml` and the migration initially kept it as
+RSS. It was removed on 2026-08-30: the last post is from 2017, the site had been
+static for years, and there were no subscribers worth preserving. `/feed.xml` now
+404s and is listed as deliberately dropped in `_migration/urls.txt`. Don't add it
+back, and don't add `@astrojs/rss` back either.
 
 ## The archive is deliberately unlinked from the home page
 
