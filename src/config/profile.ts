@@ -15,7 +15,7 @@ export const profile = {
 	// to stand alone in a Google result and a LinkedIn link preview. Kept under
 	// ~155 chars so Google doesn't truncate it mid-clause.
 	strapline:
-		'Founding CTO at AutogenAI. Shipped a production LLM product before ChatGPT launched; the architecture has survived four model generations since. London.',
+		'Founding CTO at AutogenAI. Shipped a production LLM product before ChatGPT launched; four generations of architecture since, without a rewrite. London.',
 
 	// /about meta description. This is where the phrase "Founding CTO" sits for
 	// recruiter search, since it does not sit naturally in the prose.

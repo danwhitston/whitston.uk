@@ -38,7 +38,10 @@ check_present 'href="https://github.com/danwhitston"' dist/blog/index.html 'GitH
 check_present '· Daniel Whitston</title>' dist/blog/tech-test-adventure-arbitrary/index.html 'blog post <title> has " · Daniel Whitston" suffix'
 
 # --- Hostile-reader check (site-review-2026-09-05.md §5) ---
-# Phrases withdrawn from the copy must not creep back in any form. Scoped to the
+# Phrases withdrawn from the copy must not creep back in any form. "Model generations"
+# blends two separate claims (application architecture vs the model layer); the true
+# claim is four generations of architecture on one codebase, corrected by Daniel
+# 31 Aug and again 5 Sept 2026. Scoped to the
 # pages under Daniel's name; the 2010-2017 archive posts are historical writing.
 copy_pages="dist/index.html dist/about/index.html dist/blog/index.html dist/404.html"
 banned=(
@@ -49,6 +52,9 @@ banned=(
   'one technology generation'
   'the point is'
   'is the point'
+  'model generation'
+  'generations of model'
+  'model capability'
 )
 banned_hit=0
 for phrase in "${banned[@]}"; do
