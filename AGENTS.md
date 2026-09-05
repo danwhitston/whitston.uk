@@ -80,7 +80,10 @@ old URL. Never remove entries — those are the contract.
    still exist.
 
 The apex `whitston.uk` is Cloudflare-proxied; `whitston.org.uk` 301s to it at the
-edge (that domain move happened in 2022).
+edge (that domain move happened in 2022). That redirect is a Page Rule on the
+`whitston.org.uk` zone forwarding `*whitston.org.uk/*` to `https://whitston.uk/$2`,
+so paths and query strings carry over; it was fixed to do so on 2026-09-05, having
+dropped the path for several years before that.
 
 ## There is no feed
 
