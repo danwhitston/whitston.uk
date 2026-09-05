@@ -14,7 +14,7 @@ const personSchema = {
 	'@context': 'https://schema.org',
 	'@type': 'Person',
 	name: profile.name,
-	jobTitle: profile.jobTitle,
+	...(profile.jobTitle && { jobTitle: profile.jobTitle }),
 	...(profile.worksFor && {
 		worksFor: { '@type': 'Organization', name: profile.worksFor.name, url: profile.worksFor.url },
 	}),

@@ -25,8 +25,8 @@ export const profile = {
 	// One line under the name on the OG card.
 	ogLine: 'Employee #1 and founding CTO at AutogenAI',
 
-	// JSON-LD Person. `worksFor` may be null.
-	jobTitle: 'CTO',
+	// JSON-LD Person. Both may be null, in which case the key is omitted.
+	jobTitle: 'CTO' as string | null,
 	worksFor: { name: 'AutogenAI', url: 'https://autogenai.com/' } as { name: string; url: string } | null,
 
 	// Matches LinkedIn. Do not change for a house move.
