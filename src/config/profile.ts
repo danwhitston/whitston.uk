@@ -13,9 +13,11 @@ export const profile = {
 
 	// Front-page strapline. Doubles as the site meta and OG description, so it has
 	// to stand alone in a Google result and a LinkedIn link preview. Kept under
-	// ~155 chars so Google doesn't truncate it mid-clause.
+	// ~155 chars so Google doesn't truncate it mid-clause. Every figure in it is
+	// public or on the CV; the architecture claim lives on About and in Currently,
+	// where there is room for the list that makes it credible.
 	strapline:
-		'Founding CTO at AutogenAI. Shipped a production LLM product before ChatGPT launched; four generations of architecture since, without a rewrite. London.',
+		'Founding CTO at AutogenAI. Shipped a production LLM product before ChatGPT launched; grew it to a $39.5m Series B, FedRAMP High and forty people. London.',
 
 	// /about meta description. This is where the phrase "Founding CTO" sits for
 	// recruiter search, since it does not sit naturally in the prose.
