@@ -1,16 +1,23 @@
 ---
+import { profile } from '../config/profile';
+
 const today = new Date();
 
 // The archive link lives here rather than in the main nav: the old posts stay
 // reachable and crawlable without being the first thing a visitor sees.
+//
+// GitHub and LinkedIn are here as text because the header icons hide below
+// 720px, and a phone-sized page must still have a link to LinkedIn.
 ---
 
 <footer>
 	<nav class="footer-links">
 		<a href="/blog/">Archive</a>
-		<a href="mailto:dan@whitston.uk">Email</a>
+		<a href={profile.links.github} rel="me">GitHub</a>
+		<a href={profile.links.linkedin} rel="me">LinkedIn</a>
+		<a href={`mailto:${profile.email}`}>Email</a>
 	</nav>
-	<p class="copyright">&copy; {today.getFullYear()} Daniel Whitston</p>
+	<p class="copyright">&copy; {today.getFullYear()} {profile.name}</p>
 </footer>
 <style>
 	footer {
@@ -21,8 +28,9 @@ const today = new Date();
 	}
 	.footer-links {
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: center;
-		gap: 1.5em;
+		gap: 0.5em 1.5em;
 		margin-bottom: 0.75em;
 	}
 	.footer-links a {

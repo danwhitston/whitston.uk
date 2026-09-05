@@ -1,19 +1,20 @@
 ---
-import { SITE_TITLE } from '../consts';
+import { profile } from '../config/profile';
 import HeaderLink from './HeaderLink.astro';
 
-// No archive link here by design — the old posts are reachable from the footer.
+// No archive link here by design; the old posts are reachable from the footer.
+// The icons hide below 720px, so the footer carries GitHub and LinkedIn as text.
 ---
 
 <header>
 	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
+		<h2><a href="/">{profile.name}</a></h2>
 		<div class="internal-links">
 			<HeaderLink href="/">Home</HeaderLink>
 			<HeaderLink href="/about/">About</HeaderLink>
 		</div>
 		<div class="social-links">
-			<a href="https://github.com/danwhitston" target="_blank" rel="me noopener">
+			<a href={profile.links.github} target="_blank" rel="me noopener">
 				<span class="sr-only">GitHub</span>
 				<svg viewBox="0 0 16 16" aria-hidden="true" width="28" height="28"
 					><path
@@ -22,7 +23,7 @@ import HeaderLink from './HeaderLink.astro';
 					></path></svg
 				>
 			</a>
-			<a href="https://www.linkedin.com/in/danielwhitston" target="_blank" rel="me noopener">
+			<a href={profile.links.linkedin} target="_blank" rel="me noopener">
 				<span class="sr-only">LinkedIn</span>
 				<svg viewBox="0 0 16 16" aria-hidden="true" width="28" height="28"
 					><path

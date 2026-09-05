@@ -3,29 +3,35 @@ import BaseHead from '../components/BaseHead.astro';
 import Currently from '../components/Currently.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { profile, SITE_URL } from '../config/profile';
 
 // Deliberately no post list. The archive is reachable from the footer, and the
 // line framing it lives on /blog/ instead.
 
-// JSON-LD Person: how Google connects a search for the name to this
-// site. Keep `sameAs` in step with the links in Header.astro.
+// JSON-LD Person: how Google connects a search for the name to this site.
+// Every value comes from src/config/profile.ts so it cannot drift from the copy.
 const personSchema = {
 	'@context': 'https://schema.org',
 	'@type': 'Person',
-	name: 'Daniel Whitston',
-	jobTitle: 'CTO',
-	worksFor: { '@type': 'Organization', name: 'AutogenAI', url: 'https://autogenai.com' },
-	url: 'https://whitston.uk',
-	address: { '@type': 'PostalAddress', addressLocality: 'London', addressCountry: 'GB' },
-	sameAs: ['https://www.linkedin.com/in/danielwhitston', 'https://github.com/danwhitston'],
+	name: profile.name,
+	jobTitle: profile.jobTitle,
+	...(profile.worksFor && {
+		worksFor: { '@type': 'Organization', name: profile.worksFor.name, url: profile.worksFor.url },
+	}),
+	url: SITE_URL,
+	address: {
+		'@type': 'PostalAddress',
+		addressLocality: profile.location.locality,
+		addressCountry: profile.location.country,
+	},
+	sameAs: [profile.links.linkedin, profile.links.github],
 };
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title={profile.name} description={profile.strapline} />
 		<script type="application/ld+json" set:html={JSON.stringify(personSchema)} is:inline />
 		<style>
 			main {
@@ -56,17 +62,13 @@ const personSchema = {
 	<body>
 		<Header />
 		<main>
-			<h1>Daniel Whitston</h1>
-			<p class="strapline">
-				Founding CTO at AutogenAI. Shipped a production LLM product before ChatGPT launched; the
-				architecture has survived four model generations since. London.
-			</p>
+			<h1>{profile.name}</h1>
+			<p class="strapline">{profile.strapline}</p>
 
 			<Currently />
 
 			<p class="contact">
-				More on the <a href="/about/">about page</a>, or reach me at <a
-					href="mailto:dan@whitston.uk">dan@whitston.uk</a>.
+				More on the <a href="/about/">about page</a>, or reach me at <a href={`mailto:${profile.email}`}>{profile.email}</a>.
 			</p>
 		</main>
 		<Footer />

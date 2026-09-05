@@ -2,7 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_TITLE } from '../consts';
+import { profile } from '../config/profile';
 
 // The Jekyll site served /404.html and the stock Astro blog template ships no 404
 // page, so this exists to keep that URL alive. GitHub Pages serves dist/404.html
@@ -12,7 +12,7 @@ import { SITE_TITLE } from '../consts';
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={`Page not found · ${SITE_TITLE}`} description="That page could not be found." />
+		<BaseHead title={`Page not found · ${profile.name}`} description="That page could not be found." />
 	</head>
 	<body>
 		<Header />

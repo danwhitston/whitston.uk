@@ -14,10 +14,35 @@ npm install
 npm run dev        # local dev server
 npm run build      # prebuild generates redirect stubs, then astro build
 npm run check:urls # verifies every pre-migration URL resolves in dist/
+npm run check:content # structural and copy checks on dist/ (banned phrases, em-dashes, links)
 ```
 
 CI uses `withastro/action@v6` with `node-version: 24`. **Keep that equal to
 `.nvmrc`** — divergence is the classic works-on-my-machine failure.
+
+## Profile strings live in one file
+
+`src/config/profile.ts` holds every fact that describes Daniel to a machine: name,
+strapline (also the site meta and OG description), About meta description, OG
+card line, JSON-LD `jobTitle`/`worksFor`/location, email and social URLs. The
+front page, About, `BaseHead`, `Header`, `Footer` and the OG image generator all
+read from it. Change a fact there, not in a page. The prose that repeats those
+facts in sentences lives in `src/components/Currently.astro` and
+`src/pages/about.astro`.
+
+`public/og.png` is **generated, not committed**: `scripts/gen-og-image.mjs` runs
+in `prebuild` and renders `profile.name` and `profile.ogLine` in the site font
+via satori, so the card cannot say something the page no longer says. The script
+imports the `.ts` profile directly, which relies on Node's built-in type
+stripping: keep `profile.ts` to erasable syntax (no enums).
+
+## Copy rules
+
+House style for anything under Daniel's name: no em-dashes (commas, brackets or
+a semicolon instead), no numbers, dates or superlatives that are not on the CV or
+LinkedIn, no unqualified "public sector", no customer names. `npm run
+check:content` enforces the mechanical parts against `dist/`. The archive posts
+are historical writing and are exempt.
 
 ## The URL preservation rule — read before changing routes
 

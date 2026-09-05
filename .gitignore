@@ -5,6 +5,8 @@ dist/
 
 # generated redirect stubs (rebuilt by scripts/gen-redirects.mjs on every build)
 /public/20*/
+# generated OG card (rebuilt by scripts/gen-og-image.mjs from src/config/profile.ts)
+/public/og.png
 
 # dependencies
 node_modules/

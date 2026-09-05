@@ -1,23 +1,52 @@
-// Generates public/og.png — the single site-level Open Graph card: plain and
-// legible, name and one line. This is what appears when the link is pasted
-// into LinkedIn or Slack.
+// Generates public/og.png, the single site-level Open Graph card: plain and
+// legible, name and one line. This is what appears when the link is pasted into
+// LinkedIn or Slack.
 //
-// Run manually after changing the text: `node scripts/gen-og-image.mjs`.
-// Deliberately NOT part of the build: the output is committed, so CI needs no
-// font stack and the build stays fast.
-import { writeFile } from 'node:fs/promises';
+// Runs as part of `prebuild`, so the card is always rendered from the current
+// src/config/profile.ts and can never say something the page no longer says.
+// Text is set in the site font (Atkinson Hyperlegible, from src/assets/fonts) via
+// satori, which rasterises glyphs itself, so CI needs no system fonts.
+import { readFile, writeFile } from 'node:fs/promises';
+import satori from 'satori';
 import sharp from 'sharp';
+import { profile } from '../src/config/profile.ts';
 
-const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
-	<rect width="1200" height="630" fill="#fdfdfd"/>
-	<rect x="0" y="0" width="1200" height="10" fill="#2337ff"/>
-	<text x="90" y="290" font-family="DejaVu Sans, Helvetica, Arial, sans-serif"
-		font-size="76" font-weight="bold" fill="#111820">Daniel Whitston</text>
-	<text x="90" y="365" font-family="DejaVu Sans, Helvetica, Arial, sans-serif"
-		font-size="36" fill="#3d4663">Employee #1 and founding CTO at AutogenAI</text>
-	<text x="90" y="545" font-family="DejaVu Sans, Helvetica, Arial, sans-serif"
-		font-size="28" fill="#8492a6">whitston.uk</text>
-</svg>`;
+const [regular, bold] = await Promise.all([
+	readFile(new URL('../src/assets/fonts/atkinson-regular.woff', import.meta.url)),
+	readFile(new URL('../src/assets/fonts/atkinson-bold.woff', import.meta.url)),
+]);
+
+const el = (type, style, children) => ({ type, props: { style, children } });
+
+const svg = await satori(
+	el(
+		'div',
+		{
+			width: '100%',
+			height: '100%',
+			display: 'flex',
+			flexDirection: 'column',
+			justifyContent: 'center',
+			padding: '0 90px',
+			background: '#fdfdfd',
+			borderTop: '10px solid #2337ff',
+			fontFamily: 'Atkinson',
+		},
+		[
+			el('div', { fontSize: 76, fontWeight: 700, color: '#111820', marginBottom: 18 }, profile.name),
+			el('div', { fontSize: 36, color: '#3d4663' }, profile.ogLine),
+			el('div', { fontSize: 28, color: '#8492a6', marginTop: 150 }, 'whitston.uk'),
+		],
+	),
+	{
+		width: 1200,
+		height: 630,
+		fonts: [
+			{ name: 'Atkinson', data: regular, weight: 400, style: 'normal' },
+			{ name: 'Atkinson', data: bold, weight: 700, style: 'normal' },
+		],
+	},
+);
 
 await writeFile('public/og.png', await sharp(Buffer.from(svg)).png().toBuffer());
-console.log('gen-og-image: wrote public/og.png (1200x630)');
+console.log(`gen-og-image: wrote public/og.png (1200x630): "${profile.ogLine}"`);

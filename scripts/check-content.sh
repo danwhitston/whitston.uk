@@ -26,6 +26,68 @@ check_present 'sitemap-index.xml'         dist/robots.txt      'robots.txt point
 
 [ -f dist/og.png ] && note "ok" 'og.png present' || { note "FAIL" 'og.png present'; fail=1; }
 
+# Every page carries GitHub and LinkedIn links at every width (the header icons
+# hide below 720px; the footer text links are what makes this hold on a phone).
+for f in dist/index.html dist/about/index.html dist/blog/index.html dist/404.html \
+         dist/blog/driving-sales-with-crm/index.html; do
+  check_present 'href="https://www.linkedin.com/in/danielwhitston"' "$f" "LinkedIn link on ${f#dist/}"
+done
+check_present 'href="https://github.com/danwhitston"' dist/blog/index.html 'GitHub link on /blog/'
+
+# Blog post titles carry the site-name suffix like every other page.
+check_present '· Daniel Whitston</title>' dist/blog/tech-test-adventure-arbitrary/index.html 'blog post <title> has " · Daniel Whitston" suffix'
+
+# --- Hostile-reader check (site-review-2026-09-05.md §5) ---
+# Phrases withdrawn from the copy must not creep back in any form. Scoped to the
+# pages under Daniel's name; the 2010-2017 archive posts are historical writing.
+copy_pages="dist/index.html dist/about/index.html dist/blog/index.html dist/404.html"
+banned=(
+  'first commercial LLM'
+  "world's first"
+  'twenty-five years'
+  'same buyer'
+  'one technology generation'
+  'the point is'
+  'is the point'
+)
+banned_hit=0
+for phrase in "${banned[@]}"; do
+  if grep -qiF -- "$phrase" $copy_pages; then
+    note "FAIL" "banned phrase present: \"$phrase\""
+    banned_hit=1
+  fi
+done
+[ "$banned_hit" -eq 0 ] && note "ok" 'no withdrawn phrases in the copy pages' || fail=1
+
+# Unfilled placeholders from a staged edit must never ship.
+if grep -rqF -- '[END DATE]' dist --include='*.html'; then
+  note "FAIL" 'unfilled [END DATE] placeholder in built output'
+  fail=1
+else
+  note "ok" 'no unfilled placeholders'
+fi
+
+# House style: no em-dashes in copy under Daniel's name. Check the visible text of
+# <main> only, since the blog layout and inline CSS are not copy.
+dash_hit=0
+for f in $copy_pages; do
+  if tr '\n' ' ' < "$f" | sed -e 's/.*<main[^>]*>//' -e 's|</main>.*||' | grep -q $'\xe2\x80\x94'; then
+    note "FAIL" "em-dash in ${f#dist/}"
+    dash_hit=1
+  fi
+done
+[ "$dash_hit" -eq 0 ] && note "ok" 'no em-dashes in the copy pages' || fail=1
+
+# The profile strings are one source: strapline == meta description == og:description.
+strap=$(tr '\n' ' ' < dist/index.html | grep -oE 'class="strapline"[^>]*>[^<]*' | sed -e 's/.*>//' -e 's/^ *//' -e 's/ *$//')
+meta=$(grep -oE '<meta name="description" content="[^"]*"' dist/index.html | sed -e 's/.*content="//' -e 's/"$//')
+if [ -n "$strap" ] && [ "$strap" = "$meta" ]; then
+  note "ok" 'front-page strapline and meta description agree'
+else
+  note "FAIL" "front-page strapline and meta description differ"
+  fail=1
+fi
+
 # --- Whitespace swallowed before an inline link ---
 # Astro's compressor collapses a newline before an inline <a> to nothing, not to
 # a space, so `reach me at\n<a ...>` renders as "reach me at<a". Invisible in the

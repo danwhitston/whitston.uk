@@ -2,19 +2,15 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_TITLE } from '../consts';
+import { profile } from '../config/profile';
 
-// Supplied verbatim by the 2026-08-30 brief (§2e). It is where the phrase
-// "Founding CTO" lives for recruiter search, since it does not sit naturally in
-// the prose. Kept under ~155 chars so Google doesn't truncate it.
-const DESCRIPTION =
-	'Founding CTO at AutogenAI, employee #1 since the first commit in July 2022. Previously CTO at Policy in Practice.';
+// Meta description lives in src/config/profile.ts with the other profile strings.
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={`About · ${SITE_TITLE}`} description={DESCRIPTION} />
+		<BaseHead title={`About · ${profile.name}`} description={profile.aboutDescription} />
 		<style>
 			main {
 				width: 720px;
@@ -89,7 +85,7 @@ const DESCRIPTION =
 				had.
 			</p>
 
-			<p><a href="mailto:dan@whitston.uk">dan@whitston.uk</a></p>
+			<p><a href={`mailto:${profile.email}`}>{profile.email}</a></p>
 		</main>
 		<Footer />
 	</body>
